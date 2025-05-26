@@ -19,6 +19,8 @@ def main():
             print("You didn't use Other Skill!")
         elif command == '4':
             print("ITEMS: Fish, fish-shaped medkit, fish-shaped sediment, fish-shaped toilet, fish-shaped fish. You don't like fish so all of these are unusuable, sorry.")
+        else:
+            print("sorry but im completely illiterate outside of the very narrow selection of commands on your menu")
 
         time.sleep(2)
 
