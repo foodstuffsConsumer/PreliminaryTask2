@@ -22,8 +22,8 @@ The program should:
 ### User Requirements
 
 The user needs to be able to perform various actions, including:
-- Using items to assist the user
 - Attacking enemies with their weapons
+- Blocking enemy attacks
 
 ### Input & Output
 
@@ -87,4 +87,16 @@ if __name__ == "__main__":
 ```
 
 ## Review
-This build acted as a framework for 
+This build acted as a framework for the program - and it did its job accordingly.
+
+# Sprint 2
+
+## Build
+
+## Review
+
+# Sprint 3
+
+## Build
+
+## Review
