@@ -1,8 +1,9 @@
 class Player:
-    def __init__(self, name, attack, health):
+    def __init__(self, name, attack, health, maxhp):
         self.name = name
         self.attack = attack
         self.health = health
+        self.maxhp = maxhp
 
     def loseHealth(self, healthLoss):
         self.health -= healthLoss
@@ -13,6 +14,8 @@ class Player:
     def gainHealth(self, healthGain):
         self.health += healthGain
         print(f"{self.name} heals for {healthGain} HP!")
+        if self.health > self.maxhp:
+            self.health = self.maxhp
 
     def gainAttack(self, attackGain):
         self.attack += attackGain
@@ -24,10 +27,11 @@ class Player:
 
 
 class Enemy:
-    def __init__(self, name, attack, health):
+    def __init__(self, name, attack, health, maxhp):
         self.name = name
         self.attack = attack
         self.health = health
+        self.maxhp = maxhp
 
     def loseHealth(self, healthLoss):
         self.health -= healthLoss
@@ -45,6 +49,8 @@ class Goblin(Enemy):
     def eatMeat(self, healthGain):
         self.health += healthGain
         print(f"{self.name} chomps on a piece of meat, healing themself for {healthGain} HP!")
+        if self.health > self.maxhp:
+            self.health = self.maxhp
 
 class Barbarian(Enemy):
     def warCry(self, attackBuff):
