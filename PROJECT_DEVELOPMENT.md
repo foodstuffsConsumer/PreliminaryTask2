@@ -23,12 +23,12 @@ The program should:
 
 The user needs to be able to perform various actions, including:
 - Attacking enemies with their weapons
-- Blocking enemy attacks
+- Buffing themselves with various effects
 
 ### Input & Output
 
 The user's inputs will consist of a number typed in. Certain numbers will correspond to a command, which changes depending on context.
-Output from the program should consist of information regarding the state of the game, such as the status of the player or enemy, as well as a list of commands which can be performed.
+Output from the program should consist of information regarding the state of the game, such as the status of the player or enemy or actions being performed.
 
 ### Core Features
 
@@ -87,16 +87,138 @@ if __name__ == "__main__":
 ```
 
 ## Review
-This build acted as a framework for the program - and it did its job accordingly.
+This build acted as a framework for the program - and it did its job accordingly. It's readable, well organised, and shouldn't need any more refinements to its code structure - other than adding the core gameplay loop.
 
 # Sprint 2
 
 ## Build
 
+```
+import time
+import random
+import objects
+
+player = objects.Player('The Knight', 7, 30)
+goblin = objects.Goblin(random.choice(('Krubs', 'Alb', 'Klaank')), 3, 8)
+barbarian = objects.Barbarian(random.choice(('Ragnar', 'Korgoth', 'Holfar')), 7, 18)
+alchemist = objects.Alchemist(random.choice(('Eloran', 'Orin', 'Mira', 'John Alchemy')), 5, 12)
+
+print(f"You face {goblin.name}, {barbarian.name}, and {alchemist.name}!")
+
+def kickingBodies(victim):
+    print(f"{player.name} kicks {victim} while they're down. Jerk.")
+
+def gameStatus():
+    print('\n[GAME STATUS]')
+    print(f"\n{player.name} (that's you) has {player.health} HP and {player.attack} ATK.")
+    print(f"{goblin.name} the {type(goblin).__name__} has {goblin.health} HP and {goblin.attack} ATK.")
+    print(f"{barbarian.name} the {type(barbarian).__name__} has {barbarian.health} HP and {barbarian.attack} ATK.")
+    print(f"{alchemist.name} the {type(alchemist).__name__} has {alchemist.health} HP and {alchemist.attack} ATK.")
+
+    if goblin.health <= 0 and barbarian.health <= 0 and alchemist.health <= 0:
+        print(f"\n{player.name} wins the battle!")
+        quit()
+
+def attack():
+    print("\nWho would you like to attack?")
+    print(f"1 - {goblin.name} the {type(goblin).__name__}")
+    print(f"2 - {barbarian.name} the {type(barbarian).__name__}")
+    print(f"3 - {alchemist.name} the {type(alchemist).__name__}")
+    command = input('\nType in a corresponding number... ')
+
+    if command == '1':
+        if goblin.health > 0:
+            player.dealDamage(goblin)
+        else:
+            kickingBodies(goblin.name)
+
+    if command == '2':
+        if barbarian.health > 0:
+            player.dealDamage(barbarian)
+        else:
+            kickingBodies(barbarian.name)
+
+    if command == '3':
+        if alchemist.health > 0:
+            player.dealDamage(alchemist)
+        else:
+            kickingBodies(alchemist.name)
+
+
+def main():
+
+    while True:
+        
+        gameStatus()
+
+        print('\nChoose an action!')
+        print('\n1 - Attack')
+        print('2 - Heal')
+        print('3 - Charge Weapon')
+        command = input('\nType in the corresponding number! ')
+
+        if command == '1':
+            attack()
+        elif command == '2':
+            player.gainHealth(20)
+        elif command == '3':
+            player.gainAttack(2)
+        else:
+            print("Congratulations! You do nothing.")
+
+        time.sleep(1.5)
+
+        print('')
+
+        for _ in range(2):
+            if goblin.health > 0:
+                if random.randint(1, 2) == 1:
+                    goblin.eatMeat(2)
+                else:
+                    goblin.dealDamage(player)
+            else:
+                goblin.groan()
+
+        time.sleep(1.5)
+
+        if barbarian.health > 0:
+            if random.randint(1, 3) == 1:
+                barbarian.warCry(2)
+            else:
+                barbarian.dealDamage(player)
+        else:
+            barbarian.groan()
+
+        time.sleep(1.5)
+
+        if alchemist.health > 0:
+            if random.randint(1, 3) == 1:
+                alchemist.debuffPlayer(player, 2)
+            else:
+                alchemist.dealDamage(player)
+        else:
+            alchemist.groan()
+
+        time.sleep(1.5)
+
+if __name__ == "__main__":
+    main()
+```
+
 ## Review
+
+This build meets most of the requirements initially made - although health values for enemies can go into the negatives, which while having no effect on gameplay, violates the project reliability specification and is also pretty ugly in general.
 
 # Sprint 3
 
+## Design
+
+![alt text](image.png)
+
 ## Build
 
+Since classes were already implemented in Sprint 2, a new build is not necessary.
+
 ## Review
+
+The program's naming conventions and overall structure are mostly fine, but the main loop is a bit cluttered near the bottom. In the next build, the code quality could use some cleaning.
